@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{
+            margin:0;
+        }
+        .tab{
+            padding:1vh;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="tab">
+        
+    </div>
+    
+    <script>
+        let doc = document
+        doc.onclick = addEventListener('click',(e)=>e.preventDefault())
+
+        function test(){
+            const tab = document.querySelector('.tab')
+
+            const url = 'http://localhost:8003/mock'
+
+            const config = {
+                method:'GET'
+            }
+
+            fetch(url,config)
+                    .then(data => data.json())
+                    .then(data =>{
+                       data.map(e =>{
+                           let msg = e.msg
+                           msgUl = doc.createElement('ul')
+                           msgUl.append(msg)
+                           tab.append(msgUl)
+                       })
+                    })
+                    .catch()
+
+        }
+
+        test()
+    </script>
+</body>
+</html>

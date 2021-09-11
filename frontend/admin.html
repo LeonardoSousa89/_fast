@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        *{
+            margin:0;
+        }
+        body{
+            height:100vh;
+            width:100vw;
+        }
+        .form{
+            height:100vh;
+            width:100vw;
+
+            display: grid;
+            grid-template-columns:1fr;
+            grid-template-rows:40% 55% 5%;
+            grid-template-areas:
+                'head head'
+                'main main'
+                'foot foot'
+            ;
+        }
+        header{
+            grid-area:head;
+            background:dodgerblue;
+
+            color:white;
+        }
+        header h1{
+            margin-top:5vh;
+        }
+        #tabela{
+            margin-left:1vh;
+        }
+        main{
+            padding:1vh;
+
+            grid-area:main;
+            background:whitesmoke;
+
+            overflow-y:scroll;
+        }
+        main h2{
+            margin-bottom:10vh;
+        }
+        .formulario{
+            width:100%;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+        }
+        #prod,#quant,#val{
+            margin:1vh 0;
+            max-width:60%;
+        }
+        #enviar{
+            float:right;
+            margin-right:10%;
+            margin-top:3vh;
+        }
+        footer{
+            grid-area:foot;
+            background:dodgerblue;
+
+            color:white;
+
+            padding:0.5vh;
+
+            display:flex;
+            justify-content:end;
+            align-items:flex-end;
+
+            font-size:small;
+        }
+    </style>
+    <title>admin&reg;</title>
+</head>
+<body>
+    <div class="form">
+       <header>
+            <h1> Administração <i class="fas fa-user-shield"></i>
+                <hr>
+            </h1>
+
+            <button type="button" class="btn btn-light" id="tabela" onclick="rota(Event)">Tabela</button>
+       </header>
+
+       <main>
+            <h2>formulário inserção de produtos</h2>    
+
+            <div class="formulario">
+                <input class="form-control" type="text" placeholder="nome do produto" aria-label="default input example" id="prod">
+                <input class="form-control" type="number" placeholder="quantidade do produto" aria-label="default input example" id="quant">
+                <input class="form-control" type="number" placeholder="valor do produto" aria-label="default input example" id="val">
+            </div>
+
+            <button type="button" class="btn btn-primary" id="enviar" onclick="enviar(Event)">enviar</button>
+       </main>
+
+       <footer>
+           <i>&reg;</i>2020 admin possui todos os seus direitos reservados.
+       </footer>
+    </div>
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <script>
+        let doc = document
+        doc.onclick = addEventListener('click',(e)=>e.preventDefault())
+    
+        function enviar(){
+            let produto  = doc.querySelector('#prod').value 
+            let quantidade = doc.querySelector('#quant').value 
+            let valor   = doc.querySelector('#val').value 
+
+            const url = 'http://localhost:8003/admin'
+
+            let data = { produto, quantidade, valor }
+
+            const config = {
+                method:'POST',
+                body:JSON.stringify(data),
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            }
+           
+            fetch(url,config)
+                        .then(data =>{
+                            clear()
+                            data.json()
+                        })
+                        .catch(err => console.log(err))
+
+        }
+
+        function rota(){
+            doc.location.href = 'http://localhost:3003/table-page'
+        }
+
+        function clear(){
+            let prod  = doc.querySelector('#prod') 
+            let quant = doc.querySelector('#quant') 
+            let val   = doc.querySelector('#val') 
+            
+            prod.value   = ''
+            quant.value  = ''
+            val.value    = ''
+        }
+    </script>
+</body>
+</html>
+

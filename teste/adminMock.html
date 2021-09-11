@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{
+            margin:0;
+        }
+        .data{
+            padding:1vh;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="data">
+        <input type="text" placeholder="msg" id="msg">
+        <button onclick="envmock(Event)">enviar</button>
+    </div>
+    
+    <script>
+        let doc = document
+        doc.onclick = addEventListener('click',(e)=>e.preventDefault())
+    
+        function envmock(){
+            const msg = document.querySelector('#msg').value
+
+            if(msg === '' || msg === null){
+                alert('campos vazios ou inválidos!')
+            }else{
+                const url = 'http://localhost:8003/mock'
+
+                const data = {msg}
+
+                const config = {
+                    method:'POST',
+                    body:JSON.stringify(data),
+                    headers:{
+                        'Content-Type':'application/json'
+                    }
+                }
+
+                fetch(url,config)
+                        .then(data => {
+                            data.json()
+                            clear()
+                        })
+                        .catch(err => console.log(err))
+
+                            }
+
+            }
+
+        function clear(){
+            const msg = document.querySelector('#msg')
+            msg.value = ''
+        }
+    </script>
+</body>
+</html>
